@@ -84,7 +84,7 @@ def run_simulation(speeds):
         # Plots and saves population curves    
         if (i == simulation_values.num_steps-1):
             plot.figure()
-            plot.axis([0, (simulation_values.num_steps*simulation_values.time_step), 0, 2./5.*simulation_values.carrying_capacity])
+            plot.axis([0, (simulation_values.num_steps*simulation_values.time_step), 0, 3./5.*simulation_values.carrying_capacity])
             plot.plot(np.arange(simulation_values.num_steps)*simulation_values.time_step,myosins,color='r',label="Myosin")
             plot.plot(np.arange(simulation_values.num_steps)*simulation_values.time_step,actins,color='g',label="Actin")
             plot.legend(loc="upper left")

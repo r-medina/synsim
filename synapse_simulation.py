@@ -53,13 +53,19 @@ class synapse_simulation:
         self.set_valid()
         # Deletes invalid molecules
         self.mol_all = [i for i in self.mol_all if i.valid]
-                
+         
     def molecule_count(self):
         self.how_many = len(self.mol_all)
 
     def age_molecules(self):
         for molecule in self.mol_all:
-            molecule.set_age(simulation_values.time_step)
+            dtime = simulation_values.time_step
+            if molecule.t == mol_type.MYOSIN:
+                dtime = simulation_values.time_step*simulation_values.myosin_aging
+            if simulation_values.overactive_actin:
+                if molecule.t == mol_type.ACTIN:
+                    dtime = simulation_values.time_step*simulation_values.actin_aging
+            molecule.set_age(dtime)
 
     def time_array(self,resolution):
         self.time = np.linspace( \
@@ -125,15 +131,10 @@ class synapse_simulation:
             y = molecule.pos[1]
             pos_val = ((0 < x < self.width) and (0 < y < self.height))
 
-            # For overactive myosin
-            if simulation_values.overactive_myosin:
-                if molecule.t == mol_type.MYOSIN:
-                    molecule.age = molecule.age*simulation_values.myosin_aging
-
             # For overactive actin
-            if simulation_values.overactive_actin:
-                if molecule.t == mol_type.ACTIN:
-                    molecule.age = molecule.age*simulation_values.actin_aging
+            #if simulation_values.overactive_actin:
+            #    if molecule.t == mol_type.ACTIN:
+            #        molecule.age = molecule.age*simulation_values.actin_aging
 
             age_val = ((molecule.age < simulation_values.decay_age + \
                         simulation_values.decay_age/3 * \
