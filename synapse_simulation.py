@@ -131,11 +131,6 @@ class synapse_simulation:
             y = molecule.pos[1]
             pos_val = ((0 < x < self.width) and (0 < y < self.height))
 
-            # For overactive actin
-            #if simulation_values.overactive_actin:
-            #    if molecule.t == mol_type.ACTIN:
-            #        molecule.age = molecule.age*simulation_values.actin_aging
-
             age_val = ((molecule.age < simulation_values.decay_age + \
                         simulation_values.decay_age/3 * \
                         (random()*2-1.)) \
@@ -201,9 +196,8 @@ class synapse_simulation:
                     rad_mat[i,j] = \
                                  positions[j] - \
                                  positions[i]
-                    dist_mat[i,j] = \
-                                  norm(rad_mat[i,j])
-
+                    dist_mat[i,j] = norm(rad_mat[i,j])
+                                  
         return rad_mat,dist_mat
 
 
@@ -247,10 +241,11 @@ class synapse_simulation:
                             pass
                         elif (distances_matrix[i,k] > dist_max2):
                             pass
+                        # For when there's only one OKT3
                         elif ((simulation_values.ok_count == 1) and \
                               (self.mol_all[i].t == mol_type.ACTIN) and \
                               (self.mol_all[k].t == mol_type.OKT3) and \
-                              (distances_matrix[i,k] > simulation_values.cortex_rad**2.)):
+                              (distances_matrix[i,k] > simulation_values.cortex_rad)):
                            r0 = bool(1)
                            self.mol_all[i].age = self.mol_all[i].age*.1
                            break

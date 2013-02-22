@@ -44,6 +44,7 @@ def run_simulation(speeds):
         myosins[i] = a.myo_count
         actins[i] = a.act_count
 
+
         # Generates pictures
         mmyo,mact,mok = [0,0,0]
         plot.clf()
@@ -80,6 +81,7 @@ def run_simulation(speeds):
         else:
             picname = "%s" % i
         plot.savefig(str(namedir+picname))
+
         
         # Plots and saves population curves    
         if (i == simulation_values.num_steps-1):
@@ -122,6 +124,9 @@ def make_directory():
         now = datetime.today()    
         return "pictures/%sm%sd%sy%s%s/" % \
                   (str(now.month),str(now.day),str(now.year),str(now.hour),str(now.minute))
+    
+    if not os.path.exists("./pictures"):
+        os.makedirs("./pictures")
 
     dirname = make_dirname()
 
